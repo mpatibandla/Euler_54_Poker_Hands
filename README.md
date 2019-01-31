@@ -2,6 +2,8 @@ Here is an overview of Poker and Poker hands problem.
 If you are someone new to Poker and never played Poker like me, 
 https://en.wikipedia.org/wiki/List_of_poker_hands helped me alot while working on this problem.
 
+Sometimes the formatting is messed up, you can find the same detail here: https://projecteuler.net/problem=54
+
 In the card game poker, a hand consists of five cards and are ranked, 
 from lowest to highest, in the following way:
 
