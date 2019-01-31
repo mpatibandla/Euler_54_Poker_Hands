@@ -191,3 +191,5 @@ for i in hands:
 
 print player1
 
+#result 388 - wrong answer
+
