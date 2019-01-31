@@ -11,8 +11,6 @@ rounds = lines.strip().split('\n')
 value_to_card = {14: 'A', 13: 'K', 12: 'Q', 11: 'J', 10: 'T', 9: '9',
               8: '8', 7: '7', 6: '6', 5: '5', 4: '4', 3: '3', 2: '2', 1: '1'}
 
-print len(rounds)
-
 
 def split_cards_suites(cards):
     card = []
@@ -22,7 +20,6 @@ def split_cards_suites(cards):
             card.append(cards[i])
         else:
             suite.append(cards[i])
-    print [card, suite]
     return [card, suite]
 
 
@@ -33,11 +30,6 @@ for i in rounds:
     player1_hands = split_cards_suites(i[:10])
     player2_hands = split_cards_suites(i[10:])
     hands.append([player1_hands, player2_hands])
-
-print hands
-
-player1_score = 0
-player2_score = 0
 
 
 def royal_flush(hand):
@@ -147,3 +139,55 @@ def pair(hand):
 
 print pair([['8', '8', 'K', '9', '4'], ['C', 'S', 'C', 'H', 'S']])
 print pair([['8', '8', '9', '9', '4'], ['C', 'S', 'C', 'H', 'S']])
+
+player1 = 0
+
+for i in hands:
+    player1_cards = i[0][0]
+    player1_suite = i[0][1]
+
+    player2_cards = i[1][0]
+    player2_suite = i[1][1]
+
+    player1_score = 0
+    player2_score = 0
+
+    if pair(i[0]):
+        player1_score = pair(i[0])
+        pair_exists = 1
+    if three_four_of_a_kind_and_full_house(i[0]):
+        player1_score = three_four_of_a_kind_and_full_house(i[0])
+        pair_exists = 1
+    if straight(i[0]):
+        player1_score = straight(i[0])
+    if flush(i[0]):
+        player1_score = flush(i[0])
+    if straight_flush(i[0]):
+        player1_score = straight_flush(i[0])
+    if royal_flush(i[0]):
+        player1_score = royal_flush(i[0])
+
+    if pair(i[1]):
+        player2_score = pair(i[1])
+        pair_exists = 1
+    if three_four_of_a_kind_and_full_house(i[1]):
+        player2_score = three_four_of_a_kind_and_full_house(i[1])
+        pair_exists = 1
+    if straight(i[1]):
+        player2_score = straight(i[1])
+    if flush(i[1]):
+        player2_score = flush(i[1])
+    if straight_flush(i[1]):
+        player2_score = straight_flush(i[1])
+    if royal_flush(i[1]):
+        player2_score = royal_flush(i[1])
+
+    if player1_score > player2_score:
+        player1 += 1
+
+    if player1_score == player2_score:
+        if high_card(i[0][0]) > high_card(i[1][0]):
+            player1 += 1
+
+print player1
+
