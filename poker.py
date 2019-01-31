@@ -1,8 +1,7 @@
 from collections import OrderedDict
 from operator import itemgetter
-from collections import Counter
-import operator
 
+# file read and
 f = open('poker.txt')
 lines = f.read()
 f.close()
@@ -10,10 +9,16 @@ f.close()
 # strip to eliminate that extra line
 rounds = lines.strip().split('\n')
 
+# dictionaries at hand to get values from card and vice versa
 value_to_card = {14: 'A', 13: 'K', 12: 'Q', 11: 'J', 10: 'T', 9: '9',
               8: '8', 7: '7', 6: '6', 5: '5', 4: '4', 3: '3', 2: '2', 1: '1'}
 card_to_value = {'A': 14, 'K': 13, 'Q': 12, 'J': 11, 'T': 10, '9': 9,
               '8': 8, '7': 7, '6': 6, '5': 5, '4': 4, '3': 3, '2': 2, '1': 1}
+
+# converting the hands into readable format
+# splitting into card value, and suite for every hand
+# with the first 10 characters of the line as player 1,
+# and rest as player 2
 
 
 def split_cards_suites(cards):
@@ -88,7 +93,8 @@ def max_card(hand):
 
 # print straight_flush([['Q', 'J', 'T', '9', '8'], ['S', 'S', 'S', 'S', 'S']])
 
-
+# depends on the number of pairs, this works for three of a kind,
+# four of a kind and full house as well
 def three_four_of_a_kind_and_full_house(hand):
     card = hand[0]
     count_card = dict((i, card.count(i)) for i in card)
@@ -151,7 +157,7 @@ def highest_pair(hand):
     card = hand[0]
     count_card = dict((i, card.count(i)) for i in card)
     count_card = OrderedDict(sorted(count_card.items(), key=itemgetter(1), reverse=True))
-    highest_pair = max(count_card.iteritems(), key=operator.itemgetter(1))[0]
+    highest_pair = max(count_card.iteritems(), key=itemgetter(1))[0]
     highest = 0
     if card_to_value[str(highest_pair)] > highest:
         highest = card_to_value[highest_pair]
@@ -164,6 +170,7 @@ def main():
         player1_score = 0
         player2_score = 0
 
+        # flag to identify if pairs exist, so that can be compared later for tie
         pair_exists = 0
 
         if pair(i[0]):
@@ -199,6 +206,8 @@ def main():
         if player1_score > player2_score:
             player1 += 1
 
+        # if both the scores are equal and pairs exist, lets compare the highest pair
+        # if the highest pairs are equal, look at the highest card in the hand
         elif player1_score == player2_score:
             if pair_exists:
                 if highest_pair(i[0]) > highest_pair(i[1]):
@@ -206,11 +215,13 @@ def main():
                 elif highest_pair(i[0]) == highest_pair(i[1]):
                     if max_card(i[0]) > max_card(i[1]):
                         player1 += 1
+            # when there are no pairs, break the tie by looking at the highest card
             else:
                 if max_card(i[0]) > max_card(i[1]):
                     player1 += 1
 
     print player1
+    # 376
 
 
 if __name__ == '__main__':
